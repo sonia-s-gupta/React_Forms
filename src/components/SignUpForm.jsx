@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default function SignUpForm() {
+export default function SignUpForm({ setToken }) {
 const [username, setUsername] = useState("");
 const [password, setPassword] = useState("");
 const [error, setError] = useState(null);
@@ -18,6 +18,17 @@ async function handleSubmit(e) {
         });
         const result = await response.json();
         console.log(result);
+
+        //Saves the token to local storage if it exists
+        if (result.token) {
+            setToken(result.token);
+        }
+
+        // Clears form after a successful submission
+        setUsername("");
+        setPassword("");
+        setError(null);
+        
     } catch (error) {
         setError(error.message);
     }
